@@ -23,3 +23,42 @@
 ### 模型
 5 Kmeans   Kmeans为什么一定收敛？  涉及到EM算法Kmeans的原理就是EM框架，
 EM算法收敛，所以Kmeans一定收敛
+
+
+###
+```Python
+#头条面试
+#算法题:给一组数字，这些数字里面每一个都重复出现了三次，只有一个数字x只出
+#现了一个，要求在时间 O（n）空间 O（1）内解出x.
+#思路：https://blog.csdn.net/baoendemao/article/details/39925679
+#类似的题还有：一个数组中只有1一个元素x出现了一次，其余数组出现两次，求x
+#一个数组中，只有2个互异元素x,y出现一次，其余元素出现两次，求x,y
+def fill_zero(x):
+    l=max([len(xx) for xx in x])
+    for i in range(len(x)):
+        if len(x[i])<l:
+            x[i]="0"*(l-len(x[i]))+x[i]
+    return x            
+def get_bin(x):
+    return bin(x)[2:]
+def find_num(x):
+    #首先把输入的数组中的每个数转化为二进制
+    x_bin=list(map(get_bin,x))
+    #填充0，使得所有的数组的二进制的长度一样
+    x_bin_fill=fill_zero(x_bin)
+    #求出二进制每个位置上的数字和，如果能被3整除，那么记为0，如果不能记为1
+    a=""
+    for j in range(len(x_bin_fill[0])):
+        #print(j)      
+        s=0
+        for i in range(len(x_bin_fill)):
+            s+=int(x_bin_fill[i][j])
+        #print(s)
+        if s%3==0:
+            a+="0"
+        else:
+            a+="1"
+    #最后把二进制转化为十进制即可，得到的就是唯一出现一次的数字
+    return int(a,2)
+find_num([1,2,1,2,1,2,4,4,4,6,6,6,5])
+···
